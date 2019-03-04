@@ -30,6 +30,7 @@ public class TopFmg extends BaseSwipeRefreshFmg implements BaseRecyclerArrayAdap
     @Override
     protected void setMonitor() {
         super.setMonitor();
+        //添加适配器
         goodList = new ArrayList();
         adapter = new NewsAdapter(context , goodList , this);
         easyRecyclerView.setAdapter(adapter);
@@ -38,15 +39,16 @@ public class TopFmg extends BaseSwipeRefreshFmg implements BaseRecyclerArrayAdap
     @Override
     protected void initViewWithBack(boolean setBack) {
         super.initViewWithBack(setBack);
-//        goodList = new ArrayList();
-//        adapter = new NewsAdapter(context , goodList , this);
-//        easyRecyclerView.setAdapter(adapter);
         queryGoods();
     }
+
+    /**
+     * 网络请求，params里面为请求需要的参数
+     */
     private void queryGoods() {
         Map<String ,String > params = new HashMap<>();
-        params.put("type" , "top");
-        params.put("key" , Constants.KEY);
+        params.put("type" , "top");     //新闻类型
+        params.put("key" , Constants.KEY);  //你申请的key
         newAsyncTaskExecute(Constants.HTTP_ACTION_1 , params);
     }
 
@@ -55,7 +57,7 @@ public class TopFmg extends BaseSwipeRefreshFmg implements BaseRecyclerArrayAdap
         page = 1;
         queryGoods();
     }
-
+    //分页加载用，本项目无用
     @Override
     public void onLoadMore() {
         page++;
@@ -87,11 +89,14 @@ public class TopFmg extends BaseSwipeRefreshFmg implements BaseRecyclerArrayAdap
                 adapter.addAll(goodInfoList);
             }
         }
+        adapter.stopMore();
     }
 
     @Override
     public void onRecyclerArrayClick(View view, Object data, int position) {
         NewsInfo news = (NewsInfo) data;
-        startActivity(new Intent(context ,NewsInfoAty.class));
+        Intent intent = new Intent(context ,NewsInfoAty.class);
+        intent.putExtra("link" , news.getUrl());
+        startActivity(intent);
     }
 }

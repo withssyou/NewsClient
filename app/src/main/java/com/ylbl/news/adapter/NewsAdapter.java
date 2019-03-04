@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 import com.ylbl.news.R;
+import com.ylbl.news.base.BaseRecycleViewHolder;
 import com.ylbl.news.base.BaseRecyclerArrayAdapter;
 import com.ylbl.news.bean.NewsInfo;
 
@@ -19,15 +20,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 新闻列表的适配器  可看一下 android的mvc模式
+ */
 public class NewsAdapter extends BaseRecyclerArrayAdapter<NewsInfo> {
     private Context context;
-    private List<NewsInfo> datas;
     private OnClickListener onClickListener;
 
     public NewsAdapter(Context context, List<NewsInfo> objects, OnClickListener onClickListener) {
         super(context, objects, onClickListener);
-        this.context = context;
-        this.datas = objects;
+        this.context  = context;
         this.onClickListener = onClickListener;
     }
 
@@ -36,32 +38,27 @@ public class NewsAdapter extends BaseRecyclerArrayAdapter<NewsInfo> {
         View view = LayoutInflater.from(context).inflate(R.layout.item_news , parent ,false);
         return new ViewHolder(view);
     }
-    class ViewHolder extends BaseViewHolder<NewsInfo>{
+    class ViewHolder extends BaseRecycleViewHolder<NewsInfo> {
         @BindView(R.id.item_news_icon)
         ImageView icon;
         @BindView(R.id.item_news_title)
         TextView title;
         @BindView(R.id.item_news_time)
         TextView time;
-        @BindView(R.id.item_news_author)
-        TextView author;
         @BindView(R.id.item_news_info)
         LinearLayout info;
-
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this ,itemView);
-
+            ButterKnife.bind(this , itemView);
         }
 
         @Override
-        public void setData(NewsInfo data) {
-            super.setData(data);
+        public void setData(NewsInfo data, int position) {
+            super.setData(data, position);
             Picasso.with(context).load(data.getThumbnail_pic_s()).into(icon);
             time.setText(data.getDate());
             title.setText(data.getTitle());
-            author.setText(data.getAuthor_name());
-            getOnClickListener(getAdapterPosition()).onClick(info);
+            info.setOnClickListener(getOnClickListener(position));
         }
     }
 }

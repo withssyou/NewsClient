@@ -1,0 +1,20 @@
+说明：
+    分包:
+        adapter:适配器的包，用来存放所有的适配器文件
+        base   :base类，项目架构的核心类
+        bean   :所有项目中的实体类
+        fmg    :所有Fragment类
+        net    :网络框架包
+        ui     :Activity包，用来存放所有的页面
+        utils  :项目工具包
+
+    文件类型
+        .java  用来写java代码的类                M 和 C  层代码
+        .xml   用来写布局文件及资源的文件         V层     代码
+
+        通过findViewById 方法 将V层中标记的id引入java中，进行操作
+
+    拓展:
+        MainAty可增加导航栏中的label个数，聚合数据上有的都添加(可自己尝试添加一个，多了不好看)
+        对应添加Fmg(每一个label都是由一个fmg来管理的)，详细可见TopFmg，注释较为全面
+

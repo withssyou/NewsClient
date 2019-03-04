@@ -12,6 +12,10 @@ import com.ylbl.news.R;
 
 import butterknife.BindView;
 
+/**
+ * 新闻详情的展示页面
+ *      主要是用webview加载url
+ */
 public class NewsInfoAty extends BaseToolBarAty {
     @BindView(R.id.aty_webview)
     WebView webView;
@@ -29,10 +33,16 @@ public class NewsInfoAty extends BaseToolBarAty {
     @Override
     protected void initViewWithBack(boolean setBack) {
         super.initViewWithBack(setBack);
+        //获取上个页面传递过来的地址url
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
         init(link);
     }
+
+    /**
+     * webview展示新闻详情信息
+     * @param link  url
+     */
     private void init(String link) {
         WebSettings webSettings = webView.getSettings();
 
